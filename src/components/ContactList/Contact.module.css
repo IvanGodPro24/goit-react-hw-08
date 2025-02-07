@@ -1,0 +1,17 @@
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.delete-btn {
+    margin-left: auto;
+}
