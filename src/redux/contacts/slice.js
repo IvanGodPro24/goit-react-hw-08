@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchContacts, addContact, deleteContact } from "./contactsOps";
+import {
+  fetchContacts,
+  addContact,
+  deleteContact,
+  editContact,
+} from "./operations";
+import { logout } from "../auth/operations";
 
 const handlePending = (state) => {
   state.loading = true;
@@ -21,23 +27,18 @@ const slice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(fetchContacts.pending, handlePending)
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
         state.items = action.payload;
       })
-      .addCase(fetchContacts.rejected, handleRejected)
 
-      .addCase(addContact.pending, handlePending)
       .addCase(addContact.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
         state.items.push(action.payload);
       })
-      .addCase(addContact.rejected, handleRejected)
 
-      .addCase(deleteContact.pending, handlePending)
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
@@ -45,7 +46,31 @@ const slice = createSlice({
           (contact) => contact.id !== action.payload.id
         );
       })
-      .addCase(deleteContact.rejected, handleRejected);
+
+      .addCase(logout.fulfilled, (state) => {
+        state.items = [];
+        state.error = null;
+        state.loading = false;
+      })
+
+      .addCase(editContact.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+
+        const index = state.items.findIndex(
+          (contact) => contact.id === action.payload.id
+        );
+
+        state.items[index] = action.payload;
+      })
+
+      .addMatcher((action) => {
+        return action.type.endsWith("rejected");
+      }, handleRejected)
+
+      .addMatcher((action) => {
+        return action.type.endsWith("pending");
+      }, handlePending);
   },
 });
 
