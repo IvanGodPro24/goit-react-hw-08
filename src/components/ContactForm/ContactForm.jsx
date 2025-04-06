@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { nanoid } from "nanoid";
+// import { nanoid } from "nanoid";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,7 +47,6 @@ const ContactForm = () => {
 
     dispatch(
       addContact({
-        id: nanoid(),
         name,
         number,
       })
