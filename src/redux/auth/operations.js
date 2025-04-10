@@ -3,6 +3,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 // axios.defaults.baseURL = "https://connections-api.goit.global";
 axios.defaults.baseURL = "https://blended-contacts-app.onrender.com";
+// axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.withCredentials = true
 
 const setAuthHeader = (token) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
